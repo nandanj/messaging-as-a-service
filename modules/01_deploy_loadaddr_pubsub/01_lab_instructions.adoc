@@ -1,0 +1,40 @@
+:scrollbar:
+:data-uri:
+:linkattrs:
+:toc2:
+
+== Deploy, Load Addresses and Pub-Sub
+
+:numbered:
+
+== Goals
+
+
+
+== Lab instructions
+
+=== Install, Deploy, Load addresses and Test
+
+* gunzip ~/Downloads/enmasse-0.15.3-rc1.tgz 
+* tar xvf ~/Downloads/enmasse-0.15.3-rc1.tar 
+* pushd Development/community/enmasse-0.15.3-rc1/
+
+* npm install yargs
+* npm install rhea
+* npm install minimist
+* npm list
+
+* minishift start
+* ./deploy-openshift.sh -m "https://192.168.42.248:8443" -n myproject
+* oc login https://192.168.42.248:8443 -u developer -p hello
+
+* pushd ../rhea/examples/
+* echo $(oc get route -o jsonpath='{.spec.host}')
+* curl -X POST -H "content-type: application/json" --data-binary @addresses.json -k https://$(oc get route -o jsonpath='{.spec.host}' restapi)/apis/enmasse.io/v1/addresses/default
+* curl -X GET -H "content-type: application/json" -k https://$(oc get route -o jsonpath='{.spec.host}' restapi)/apis/enmasse.io/v1/addresses/default
+* Navigate to `console-myproject.192.168.42.248.nip.io` to check out if the addresses are loaded
+
+* node simple_recv.js -p 443 -n myqueue -m 5
+* node simple_send.js -p 443 -n myqueue -m 5
+
+* oc get routes

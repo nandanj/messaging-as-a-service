@@ -1,0 +1,28 @@
+:scrollbar:
+:data-uri:
+:linkattrs:
+:toc2:
+
+== Deploy, Load Addresses and Pub-Sub
+
+:numbered:
+
+== Goals
+
+
+
+== Lab instructions
+
+=== Install and Deploy
+
+*  gunzip ~/Downloads/enmasse-0.15.3-rc1.tgz 
+*  tar xvf ~/Downloads/enmasse-0.15.3-rc1.tar 
+*  pushd Development/community/enmasse-0.15.3-rc1/
+
+*  minishift start
+*  ./deploy-openshift.sh -m "https://192.168.42.248:8443" -n myproject
+*  oc login https://192.168.42.248:8443 -u developer -p hello
+
+
+  798  curl -X GET -H "content-type: application/json" -k https://$(oc get route -o jsonpath='{.spec.host}' restapi)/apis/enmasse.io/v1/addresses/default
+
